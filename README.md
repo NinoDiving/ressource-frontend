@@ -20,7 +20,7 @@ Ce projet utilise [Orval](https://orval.dev/) pour générer automatiquement les
 1. Copiez le fichier `.env.exemple` et renommez-le en `.env` à la racine de votre projet `front-end`.
 2. Assurez-vous que votre backend FastAPI est en cours d'exécution localement sur le port `8000`. L'URL par défaut interrogée par la configuration est : `http://localhost:8000/openapi.json`.
 
-Si le port ou l'URL de l'API est différent, vous pouvez le modifier dans le fichier `orval.config.ts` situé à la racine du frontend.
+Si le port ou l'URL de l'API est différent, vous pouvez le modifier dans le fichier `orval.config.ts` situé à la racine du ressource-frontend.
 
 ### Commandes
 
