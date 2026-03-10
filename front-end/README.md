@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
@@ -14,23 +12,26 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Ce projet utilise [Orval](https://orval.dev/) pour générer automatiquement les types TypeScript et les hooks React Query à partir de la spécification OpenAPI (Swagger) de notre backend FastAPI.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prérequis
 
-## Learn More
+1. Copiez le fichier `.env.exemple` et renommez-le en `.env` à la racine de votre projet `front-end`.
+2. Assurez-vous que votre backend FastAPI est en cours d'exécution localement sur le port `8000`. L'URL par défaut interrogée par la configuration est : `http://localhost:8000/openapi.json`.
 
-To learn more about Next.js, take a look at the following resources:
+Si le port ou l'URL de l'API est différent, vous pouvez le modifier dans le fichier `orval.config.ts` situé à la racine du frontend.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Commandes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Pour regénérer le client API après avoir effectué des changements sur les routes du backend, lancez la commande suivante à la racine du projet `front-end` (avec votre backend allumé) :
 
-## Deploy on Vercel
+```bash
+pnpm run orval
+# ou
+npm run orval
+# ou
+yarn orval
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Les hooks générés (`useQuery`, `useMutation`, etc.) ainsi que les modèles TypeScript se trouveront dans le dossier `api/`. Ils utiliseront **Axios** pour les requêtes HTTP.
