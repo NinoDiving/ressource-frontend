@@ -6,15 +6,12 @@ import Footer from '@/components/layout/Footer';
 import AuthGuard from '@/components/auth/AuthGuard';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchCategories } from '@/api/categories';
 import { fetchTypes } from '@/api/types';
 import { createResource } from '@/api/resources';
 import { uploadFile } from '@/api/upload';
-import 'react-quill-new/dist/quill.snow.css';
-
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+import RichTextEditor from '@/components/editor/RichTextEditor';
 
 export default function CreateResourcePage() {
   const router = useRouter();
@@ -69,18 +66,6 @@ export default function CreateResourcePage() {
   const handleSubmit = async (e: React.FormEvent, isDraft: boolean) => {
     e.preventDefault();
     mutation.mutate({ ...formData, isDrafted: isDraft });
-  };
-
-  // CONFIGURATION QUILL AVEC IMAGE HANDLER
-  const modules = {
-    toolbar: {
-      container: [
-        [{ 'header': [1, 2, 3, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        ['link', 'image', 'clean']
-      ],
-    }
   };
 
   const isSubmitting = mutation.isPending;
@@ -194,35 +179,12 @@ export default function CreateResourcePage() {
               {/* CONTENU PRINCIPAL */}
               <div>
                 <label className="block text-sm font-medium mb-3 text-grey">Contenu de la ressource</label>
-                <div className="bg-[#F5F5F5]/50 rounded-xl border border-grey/10 overflow-hidden min-h-[300px]">
-                  <ReactQuill 
-                    theme="snow"
-                    value={formData.content}
-                    onChange={(content) => setFormData({...formData, content})}
-                    placeholder="Rédigez votre article ou insérez votre lien ici..."
-                    modules={modules}
-                    className="h-full border-none"
-                  />
-                </div>
+                <RichTextEditor
+                  value={formData.content}
+                  onChange={(content) => setFormData({...formData, content})}
+                  placeholder="Rédigez votre article ou insérez votre lien ici..."
+                />
               </div>
-
-              <style jsx global>{`
-                .ql-container.ql-snow {
-                  border: none !important;
-                  font-family: 'Inter', sans-serif;
-                  font-size: 1rem;
-                  color: #434343;
-                  min-height: 250px;
-                }
-                .ql-toolbar.ql-snow {
-                  border: none !important;
-                  border-bottom: 1px solid rgba(67, 67, 67, 0.1) !important;
-                  background: rgba(255, 255, 255, 0.5);
-                }
-                .ql-editor {
-                  min-height: 250px;
-                }
-              `}</style>
 
               {/* BOUTONS */}
               <div className="flex justify-end gap-4 pt-6">
